@@ -209,7 +209,10 @@ function(full.formula,data,base.formula=as.formula(.~ 1),SH=TRUE,maxdeg=0,nodes.
   isFactor = names(unlist(lapply(data,class)))[(unlist(lapply(data,class)))=="factor"]
   colFactors = which(colnames(MF.mat)%in%isFactor)
   rowsPolyFactor <- unique(unlist(apply(MF.mat[,colFactors,drop=F],2,function(cc)which(cc > 1))))
-  MF.mat <- MF.mat[-rowsPolyFactor,]
+  if(!identical(rowsPolyFactor,integer(0))){
+    MF.mat <- MF.mat[-rowsPolyFactor,]  
+  }
+  
   
   if(!is.null(nodes.to.remove)){
     rowNodesRem <- which(rownames(MF.mat)%in%nodes.to.remove)
